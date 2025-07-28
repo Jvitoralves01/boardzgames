@@ -122,14 +122,14 @@
 <body>
   <header>
     <img src="images.jpg" alt="Logo" />
-    <h1>Controle de Jogos de Mesa</h1>
+    <h1>Controle Boardgames</h1>
   </header>
   <main>
     <label for="mesa">Número da Mesa</label>
-    <input type="text" id="mesa" placeholder="Ex: 01" />
+    <input type="text" id="mesa" placeholder="..." />
 
     <label for="nome">Nome do Jogo</label>
-    <input type="text" id="nome" placeholder="Nome do jogo" />
+    <input type="text" id="nome" placeholder="..." />
 
     <label for="valor">Valor da Locação</label>
     <select id="valor">
@@ -146,7 +146,7 @@
     <input
       type="text"
       id="pesquisaMesa"
-      placeholder="Digite o número da mesa"
+      placeholder="Digite o Nº da mesa"
       oninput="filtrarJogos()"
     />
 
