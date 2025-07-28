@@ -127,10 +127,10 @@
   </header>
   <main>
     <label for="mesa">Número da Mesa</label>
-    <input type="text" id="mesa" placeholder="..." />
+    <input type="text" id="mesa" placeholder="" />
 
     <label for="nome">Nome do Jogo</label>
-    <input type="text" id="nome" placeholder="..." />
+    <input type="text" id="nome" placeholder="" />
 
     <label for="valor">Valor da Locação</label>
     <select id="valor">
