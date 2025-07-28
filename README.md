@@ -1,8 +1,7 @@
-<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Cadastro de Jogos - Pub Boardgames</title>
+  <title>Aluguel Games - Boardz Game Pub</title>
   <style>
     :root {
       --cor-primaria: #6a1b9a;
