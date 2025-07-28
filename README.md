@@ -1,155 +1,121 @@
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Aluguel Games - Boardz Game Pub</title>
-  <style>
-    :root {
-      --cor-primaria: #6a1b9a;
-      --cor-secundaria: #f3e5f5;
-      --cor-fundo: #f8f8f8;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Controle de Jogos - Boardzgame Pub</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+
+  header img {
+    height: 50px;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 28px;
+    color: #4B0082;
+  }
+
+  main {
+    max-width: 900px;
+    margin: auto;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+
+  input, select, button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+
+  button {
+    background-color: #800080;
+    color: white;
+    cursor: pointer;
+    margin-top: 15px;
+  }
+
+  button:hover {
+    background-color: #9b30ff;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+  }
+
+  th, td {
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+  }
+
+  #listaTotais {
+    margin-top: 30px;
+  }
+
+  @media (max-width: 600px) {
+    table, thead, tbody, th, td, tr {
+      display: block;
     }
 
-    * {
-      box-sizing: border-box;
+    td {
+      text-align: right;
+      padding-left: 50%;
+      position: relative;
     }
 
-    body {
-      font-family: Arial, sans-serif;
-      background-color: var(--cor-fundo);
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background-color: var(--cor-primaria);
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
-
-    header img {
-      max-height: 80px;
-    }
-
-    main {
-      max-width: 1000px;
-      margin: 20px auto;
-      padding: 20px;
-      background-color: white;
-      box-shadow: 0 0 10px #ccc;
-      border-radius: 10px;
-    }
-
-    h1, h2 {
-      text-align: center;
-      color: var(--cor-primaria);
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    label {
+    td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 10px;
+      text-align: left;
       font-weight: bold;
     }
+  }
+</style>
 
-    input[type="text"], select {
-      padding: 10px;
-      font-size: 1em;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    button {
-      background-color: var(--cor-primaria);
-      color: white;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #8e24aa;
-    }
-
-    .filtro {
-      margin-top: 30px;
-      text-align: center;
-    }
-
-    .filtro input {
-      width: 300px;
-      max-width: 100%;
-      padding: 10px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    th, td {
-      border: 1px solid #ddd;
-      padding: 12px;
-      text-align: center;
-    }
-
-    th {
-      background-color: var(--cor-primaria);
-      color: white;
-    }
-
-    td button {
-      margin: 0 5px;
-      background-color: #d32f2f;
-    }
-
-    td button.edit {
-      background-color: #0288d1;
-    }
-
-    .totais {
-      margin-top: 30px;
-      padding: 15px;
-      background-color: var(--cor-secundaria);
-      border-radius: 10px;
-    }
-
-    @media (max-width: 600px) {
-      form, .filtro {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      input, select, button {
-        width: 100%;
-      }
-
-      table, thead, tbody, th, td, tr {
-        font-size: 0.9em;
-      }
-    }
-  </style>
 </head>
 <body>
+  <header>
+    <img src="images.jpg" alt="Logo" />
+    <h1>Controle de Jogos - BoardzGamePub</h1>
+  </header>
 
-<header>
-  <img src="images.jpg" alt="Logo do Pub">
-  <h1>Cadastro de Jogos - Pub de Boardgames</h1>
-</header>
-
-<main>
-  <form id="jogoForm">
-    <label>Mesa:</label>
-    <input type="text" id="mesa" required>
-
+  <main>
     <label>Nome do Jogo:</label>
-    <input type="text" id="nome" required>
+    <input type="text" id="nome" placeholder="Ex: Dixit" required />
+
+    <label>Mesa:</label>
+    <input type="text" id="mesa" placeholder="Ex: 3" required />
 
     <label>Valor da Locação:</label>
     <select id="valor" required>
@@ -160,108 +126,128 @@
       <option value="15">🔵🔵 PLATINA – R$ 15</option>
     </select>
 
-    <button type="submit">Cadastrar Jogo</button>
-  </form>
+    <button onclick="cadastrarJogo()">Cadastrar Jogo</button>
 
-  <div class="filtro">
-    <label>🔍 Pesquisar por número da mesa:</label><br>
-    <input type="text" id="filtroMesa" placeholder="Digite o número da mesa...">
-  </div>
+    <label style="margin-top: 30px;">Pesquisar por Mesa:</label>
+    <input type="text" id="pesquisaMesa" placeholder="Digite o número da mesa" oninput="filtrarMesa()" />
 
-  <table id="tabelaJogos">
-    <thead>
-      <tr>
-        <th>Mesa</th>
-        <th>Nome do Jogo</th>
-        <th>Valor (R$)</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
+    <table id="tabela">
+      <thead>
+        <tr>
+          <th>Mesa</th>
+          <th>Jogo</th>
+          <th>Valor</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="corpoTabela">
+      </tbody>
+    </table>
 
-  <div class="totais" id="valoresPorMesa">
-    <h2>Total por Mesa</h2>
-    <ul id="listaTotais"></ul>
-  </div>
-</main>
+    <div id="listaTotais"></div>
 
-<script>
-  const form = document.getElementById('jogoForm');
-  const tabela = document.querySelector('#tabelaJogos tbody');
-  const filtroMesa = document.getElementById('filtroMesa');
-  const listaTotais = document.getElementById('listaTotais');
+    <div style="margin-top: 30px; text-align: center;">
+      <label>Fechar Mesa:</label><br>
+      <input type="text" id="fecharMesaInput" placeholder="Digite o número da mesa" style="padding: 30px; width: 200px;">
+      <button onclick="fecharMesa()">Fechar Mesa</button>
+    </div>
+  </main>
 
-  let registros = [];
+  <script>
+    let registros = [];
 
-  function atualizarTabela() {
-    tabela.innerHTML = '';
-    registros.forEach((registro, index) => {
-      const linha = document.createElement('tr');
-      linha.innerHTML = `
-        <td>${registro.mesa}</td>
-        <td>${registro.nome}</td>
-        <td>R$ ${registro.valor.toFixed(2)}</td>
-        <td>
-          <button class="edit" onclick="editarRegistro(${index})">Editar</button>
-          <button onclick="removerRegistro(${index})">Remover</button>
-        </td>
-      `;
-      tabela.appendChild(linha);
-    });
-    atualizarTotais();
-  }
+    function cadastrarJogo() {
+      const nome = document.getElementById('nome').value.trim();
+      const mesa = document.getElementById('mesa').value.trim();
+      const valor = parseFloat(document.getElementById('valor').value);
 
-  function atualizarTotais() {
-    const totais = {};
-    registros.forEach(r => {
-      totais[r.mesa] = (totais[r.mesa] || 0) + r.valor;
-    });
+      if (!nome || !mesa) {
+        alert('Preencha todos os campos.');
+        return;
+      }
 
-    listaTotais.innerHTML = '';
-    for (const mesa in totais) {
-      const item = document.createElement('li');
-      item.textContent = `Mesa ${mesa}: R$ ${totais[mesa].toFixed(2)}`;
-      listaTotais.appendChild(item);
+      registros.push({ nome, mesa, valor });
+      atualizarTabela();
+
+      document.getElementById('nome').value = '';
+      document.getElementById('mesa').value = '';
+      document.getElementById('valor').selectedIndex = 0;
     }
-  }
 
-  form.addEventListener('submit', function (event) {
-    event.preventDefault();
-    const mesa = document.getElementById('mesa').value.trim();
-    const nome = document.getElementById('nome').value.trim();
-    const valor = parseFloat(document.getElementById('valor').value);
+    function atualizarTabela(filtro = '') {
+      const corpo = document.getElementById('corpoTabela');
+      corpo.innerHTML = '';
 
-    registros.push({ mesa, nome, valor });
-    form.reset();
-    atualizarTabela();
-  });
+      const filtrados = filtro
+        ? registros.filter(r => r.mesa.includes(filtro))
+        : registros;
 
-  filtroMesa.addEventListener('input', function () {
-    const filtro = filtroMesa.value.toLowerCase();
-    const linhas = tabela.getElementsByTagName('tr');
+      filtrados.forEach((r, index) => {
+        const linha = document.createElement('tr');
+        linha.innerHTML = `
+          <td>${r.mesa}</td>
+          <td>${r.nome}</td>
+          <td>R$ ${r.valor.toFixed(2)}</td>
+          <td>
+            <button onclick="editarJogo(${index})">Editar</button>
+            <button onclick="removerJogo(${index})">Remover</button>
+          </td>
+        `;
+        corpo.appendChild(linha);
+      });
 
-    for (let i = 0; i < linhas.length; i++) {
-      const mesa = linhas[i].cells[0].textContent.toLowerCase();
-      linhas[i].style.display = mesa.includes(filtro) ? '' : 'none';
+      atualizarTotais();
     }
-  });
 
-  function removerRegistro(index) {
-    registros.splice(index, 1);
-    atualizarTabela();
-  }
+    function filtrarMesa() {
+      const filtro = document.getElementById('pesquisaMesa').value.trim();
+      atualizarTabela(filtro);
+    }
 
-  function editarRegistro(index) {
-    const reg = registros[index];
-    document.getElementById('mesa').value = reg.mesa;
-    document.getElementById('nome').value = reg.nome;
-    document.getElementById('valor').value = reg.valor;
-    registros.splice(index, 1);
-    atualizarTabela();
-  }
-</script>
+    function removerJogo(index) {
+      registros.splice(index, 1);
+      atualizarTabela();
+    }
 
+    function editarJogo(index) {
+      const jogo = registros[index];
+      const novoNome = prompt('Novo nome do jogo:', jogo.nome);
+      const novoValor = parseFloat(prompt('Novo valor:', jogo.valor));
+      if (novoNome && !isNaN(novoValor)) {
+        registros[index].nome = novoNome;
+        registros[index].valor = novoValor;
+        atualizarTabela();
+      }
+    }
+
+    function atualizarTotais() {
+      const totaisPorMesa = {};
+      registros.forEach(r => {
+        if (!totaisPorMesa[r.mesa]) totaisPorMesa[r.mesa] = 0;
+        totaisPorMesa[r.mesa] += r.valor;
+      });
+
+      const divTotais = document.getElementById('listaTotais');
+      divTotais.innerHTML = '<h3>Totais por Mesa:</h3>';
+      for (let mesa in totaisPorMesa) {
+        divTotais.innerHTML += `<p>Mesa ${mesa}: <strong>R$ ${totaisPorMesa[mesa].toFixed(2)}</strong></p>`;
+      }
+    }
+
+    function fecharMesa() {
+      const mesaParaFechar = document.getElementById('fecharMesaInput').value.trim();
+      if (!mesaParaFechar) {
+        alert('Digite o número da mesa que deseja fechar.');
+        return;
+      }
+
+      const confirmacao = confirm(`Tem certeza que deseja fechar a Mesa: ${mesaParaFechar}?`);
+      if (!confirmacao) return;
+
+      registros = registros.filter(r => r.mesa !== mesaParaFechar);
+      atualizarTabela();
+      document.getElementById('fecharMesaInput').value = '';
+    }
+  </script>
 </body>
 </html>
