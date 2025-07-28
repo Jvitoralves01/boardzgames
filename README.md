@@ -3,7 +3,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Controle de Jogos - BoardzGame Pub</title>
-  <link rel="icon" href="favicon.ico" type="images.jpg" />
+  <link rel="icon" href="images.jpg" type="image/x-icon" />
   <style>
     body {
       font-family: Arial, sans-serif;
