@@ -1,7 +1,7 @@
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Controle de Jogos - Boardzgame Pub</title>
   <style>
     body {
@@ -59,10 +59,26 @@
       color: white;
       cursor: pointer;
       margin-top: 15px;
+      border: none;
+      transition: background-color 0.3s ease;
     }
 
     button:hover {
       background-color: #9b30ff;
+    }
+
+    button.remover-btn {
+      background-color: #cc0000;
+      padding: 6px 12px;
+      margin: 0;
+      font-size: 14px;
+      border-radius: 5px;
+      width: auto;
+      cursor: pointer;
+    }
+
+    button.remover-btn:hover {
+      background-color: #ff4d4d;
     }
 
     table {
@@ -105,15 +121,15 @@
 </head>
 <body>
   <header>
-    <img src="images.jpg" alt="Logo">
+    <img src="images.jpg" alt="Logo" />
     <h1>Controle de Jogos de Mesa</h1>
   </header>
   <main>
     <label for="mesa">Número da Mesa</label>
-    <input type="text" id="mesa">
+    <input type="text" id="mesa" placeholder="Ex: 01" />
 
     <label for="nome">Nome do Jogo</label>
-    <input type="text" id="nome">
+    <input type="text" id="nome" placeholder="Nome do jogo" />
 
     <label for="valor">Valor da Locação</label>
     <select id="valor">
@@ -125,6 +141,14 @@
     </select>
 
     <button onclick="cadastrarJogo()">Lançar Jogo</button>
+
+    <label for="pesquisaMesa">Pesquisar por Mesa</label>
+    <input
+      type="text"
+      id="pesquisaMesa"
+      placeholder="Digite o número da mesa"
+      oninput="filtrarJogos()"
+    />
 
     <table>
       <thead>
@@ -141,8 +165,13 @@
     <div id="listaTotais"></div>
 
     <div style="margin-top: 20px; text-align: center;">
-      <label>Fechar Mesa:</label><br>
-      <input type="text" id="fecharMesaInput" placeholder="Digite o Nº da mesa" style="padding: 10px; width: 200px;">
+      <label>Fechar Mesa:</label><br />
+      <input
+        type="text"
+        id="fecharMesaInput"
+        placeholder="Digite o Nº da mesa"
+        style="padding: 10px; width: 200px;"
+      />
       <button onclick="fecharMesa()">Fechar Mesa</button>
     </div>
 
@@ -154,51 +183,80 @@
     let historicoFechamentos = [];
 
     function cadastrarJogo() {
-      const mesa = document.getElementById('mesa').value.trim();
-      const nome = document.getElementById('nome').value.trim();
-      const valor = parseFloat(document.getElementById('valor').value);
+      const mesaInput = document.getElementById('mesa');
+      const nomeInput = document.getElementById('nome');
+      const valorSelect = document.getElementById('valor');
 
-      if (!mesa || !nome) return alert('Preencha todos os campos.');
+      const mesa = mesaInput.value.trim();
+      const nome = nomeInput.value.trim();
+      const valor = parseFloat(valorSelect.value);
+
+      if (!mesa || !nome) {
+        alert('Preencha todos os campos.');
+        return;
+      }
 
       registros.push({ mesa, nome, valor });
       atualizarTabela();
 
-      document.getElementById('mesa').value = '';
-      document.getElementById('nome').value = '';
+      mesaInput.value = '';
+      nomeInput.value = '';
+      mesaInput.focus();
     }
 
     function removerJogo(index) {
-      registros.splice(index, 1);
-      atualizarTabela();
+      if (confirm('Confirma a remoção deste jogo?')) {
+        registros.splice(index, 1);
+        atualizarTabela();
+      }
     }
 
     function atualizarTabela() {
+      filtrarJogos();
+    }
+
+    function filtrarJogos() {
+      const filtro = document
+        .getElementById('pesquisaMesa')
+        .value.trim()
+        .toLowerCase();
       const tabela = document.getElementById('tabela');
       tabela.innerHTML = '';
 
-      registros.forEach((r, i) => {
+      // Filtra registros que contenham o filtro no número da mesa (case insensitive)
+      const registrosFiltrados = registros.filter((r) =>
+        r.mesa.toLowerCase().includes(filtro)
+      );
+
+      if (registrosFiltrados.length === 0) {
+        tabela.innerHTML = `<tr><td colspan="4">Nenhum jogo encontrado para a busca.</td></tr>`;
+        document.getElementById('listaTotais').innerHTML = '';
+        return;
+      }
+
+      registrosFiltrados.forEach((r, i) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${r.mesa}</td>
           <td>${r.nome}</td>
           <td>R$ ${r.valor.toFixed(2)}</td>
-          <td><button onclick="removerJogo(${i})">Remover</button></td>
+          <td><button class="remover-btn" onclick="removerJogo(${i})">Remover</button></td>
         `;
         tabela.appendChild(tr);
       });
 
-      atualizarTotais();
+      atualizarTotaisFiltrados(registrosFiltrados);
     }
 
-    function atualizarTotais() {
+    function atualizarTotaisFiltrados(registrosFiltrados) {
       const totais = {};
-      registros.forEach(r => {
+      registrosFiltrados.forEach((r) => {
         if (!totais[r.mesa]) totais[r.mesa] = 0;
         totais[r.mesa] += r.valor;
       });
 
       const div = document.getElementById('listaTotais');
-      div.innerHTML = '<h3>Total por Mesa</h3>';
+      div.innerHTML = '<h3>Total por Mesa (Filtro)</h3>';
       for (let mesa in totais) {
         div.innerHTML += `Mesa ${mesa}: <strong>R$ ${totais[mesa].toFixed(2)}</strong><br>`;
       }
@@ -211,7 +269,7 @@
         return;
       }
 
-      const registrosMesa = registros.filter(r => r.mesa === mesaParaFechar);
+      const registrosMesa = registros.filter((r) => r.mesa === mesaParaFechar);
       if (registrosMesa.length === 0) {
         alert(`Nenhum jogo encontrado para a Mesa ${mesaParaFechar}.`);
         return;
@@ -223,20 +281,21 @@
       historicoFechamentos.push({
         mesa: mesaParaFechar,
         total: totalMesa,
-        jogos: registrosMesa.map(r => r.nome)
+        jogos: registrosMesa.map((r) => r.nome),
       });
 
-      registros = registros.filter(r => r.mesa !== mesaParaFechar);
+      registros = registros.filter((r) => r.mesa !== mesaParaFechar);
       atualizarTabela();
       atualizarHistorico();
       document.getElementById('fecharMesaInput').value = '';
+      document.getElementById('pesquisaMesa').value = ''; // Limpa filtro ao fechar mesa
     }
 
     function atualizarHistorico() {
       const historicoDiv = document.getElementById('historico');
       historicoDiv.innerHTML = '<h3>🧾 Histórico de Mesas Fechadas</h3>';
 
-      historicoFechamentos.forEach(item => {
+      historicoFechamentos.forEach((item) => {
         const div = document.createElement('div');
         div.style.marginBottom = '10px';
         div.style.padding = '10px';
